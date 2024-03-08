@@ -1,0 +1,71 @@
+const readlineSync = require('readline-sync');
+const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
+const notesFile = 'notes.json';
+
+// Load existing notes
+let notes = [];
+if (fs.existsSync(notesFile)) {
+    notes = JSON.parse(fs.readFileSync(notesFile));
+}
+
+function saveNotes() {
+    fs.writeFileSync(notesFile, JSON.stringify(notes, null, 2));
+}
+
+function addNote() {
+    const title = readlineSync.question('Note title: ');
+    const body = readlineSync.question('Note body: ');
+    notes.push({ id: uuidv4(), title, body });
+    saveNotes();
+    console.log('Note added successfully.');
+}
+
+function listNotes() {
+    notes.forEach((note, index) => {
+        console.log(`${index + 1}. ${note.title}`);
+    });
+}
+
+function readNote() {
+    const index = readlineSync.keyInSelect(notes.map(note => note.title), 'Select a note to read:');
+    if (index >= 0) {
+        console.log(`\nTitle: ${notes[index].title}\nBody: ${notes[index].body}\n`);
+    }
+}
+
+function deleteNote() {
+    const index = readlineSync.keyInSelect(notes.map(note => note.title), 'Select a note to delete:');
+    if (index >= 0) {
+        notes.splice(index, 1);
+        saveNotes();
+        console.log('Note deleted successfully.');
+    }
+}
+
+function mainMenu() {
+    console.log('\nNotes App');
+    const choices = ['Add note', 'List notes', 'Read note', 'Delete note', 'Exit'];
+    const index = readlineSync.keyInSelect(choices, 'Choose an option:');
+    switch (index) {
+        case 0:
+            addNote();
+            break;
+        case 1:
+            listNotes();
+            break;
+        case 2:
+            readNote();
+            break;
+        case 3:
+            deleteNote();
+            break;
+        case 4:
+            console.log('Goodbye!');
+            process.exit();
+    }
+}
+
+while (true) {
+    mainMenu();
+}

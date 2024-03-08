@@ -1,0 +1,26 @@
+{
+  "name": "takiya-cli-note",
+  "version": "1.0.0",
+  "description": "A simple CLI application for managing notes.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/takiyairfan230/takiya-cli-node"
+    },
+  "homepage": "https://twitter.com/FletaLohan",
+  "dependencies": {
+    "readline-sync": "^1.4.10",
+    "takiya-cli-note": "^1.0.0",
+    "uuid": "^8.3.2"
+  },
+  "author": "Takiya",
+  "license": "ISC"
+}
+
+
+
+
+
